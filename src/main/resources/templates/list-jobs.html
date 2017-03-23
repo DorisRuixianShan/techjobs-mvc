@@ -10,7 +10,34 @@
 
     <h1 th:text="${#strings.capitalizeWords(title)}"></h1>
 
-    <!-- TODO #3 - Use the same list display from search.html -->
+     <!--TODO #3 - Use the same list display from search.html-->
+    <div>
+        <h3 th:text="${#strings.capitalizeWords(results)}"></h3>
+        <div th:if="${allJobs} and ${allJobs.size()}">
+            <table th:each="row: ${allJobs}" th:class="job-listing">
+                <tr th:each="column:${displayColumns}">
+                    <td th:text="${column}"></td>
+                    <td th:text="${row.get(column)}"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <div>
+        <h3 th:text="${#strings.capitalizeWords(columnsAndValueResults)}"></h3>
+        <div th:if="${jobs} and ${jobs.size()}">
+            <table th:each="row: ${jobs}" th:class="job-listing">
+                <tr th:each="column:${displayColumns}">
+                    <td th:text="${column}"></td>
+                    <td th:text="${row.get(column)}"></td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+
 
 </div>
 

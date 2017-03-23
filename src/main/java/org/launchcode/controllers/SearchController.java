@@ -28,17 +28,27 @@ public class SearchController {
     @RequestMapping(value = "results")
     public String results(Model model,
                           @RequestParam String searchType, @RequestParam String searchTerm) {
+        if (searchType.equals("all")) {
+            ArrayList<HashMap<String, String>> jobs = JobData.findByValue(searchTerm);
+            String[] displayColumns = {"position type", "name", "employer", "location", "core competency"};
 
-        ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
-        String[] displayColumns={"position type","name","employer","location","core competency"};
+            model.addAttribute("displayColumns", displayColumns);
+            model.addAttribute("columns", columnChoices);
+            model.addAttribute("results", jobs.size() + " Result(s)");
+            model.addAttribute("jobs", jobs);
+            return "search";
+        } else {
 
-        model.addAttribute("displayColumns", displayColumns);
-        model.addAttribute("columns", columnChoices);
-        model.addAttribute("results",jobs.size()+ " Result(s)");
-        model.addAttribute("jobs", jobs);
+            ArrayList<HashMap<String, String>> jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+            String[] displayColumns = {"position type", "name", "employer", "location", "core competency"};
 
-        return "search";
+            model.addAttribute("displayColumns", displayColumns);
+            model.addAttribute("columns", columnChoices);
+            model.addAttribute("results", jobs.size() + " Result(s)");
+            model.addAttribute("jobs", jobs);
+
+            return "search";
+        }
     }
-
 
 }
